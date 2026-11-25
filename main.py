@@ -45,6 +45,9 @@ ball = GameSprite("ball.webp", WIN_WIDTH/2, WIN_HEIGHT/2, 50, 50, 10)
 platform_left = Player("platform.png", 10, WIN_HEIGHT/2, 39/1.5, 136/1.5, 10)
 platform_right = Player("platform.png", 670, WIN_HEIGHT/2, 39/1.5, 136/1.5, 10)
 
+d_x = 3
+d_y = -3
+
 run = True
 while run:
     window.fill(BACK)
@@ -54,7 +57,19 @@ while run:
     platform_right.reset()
     platform_right.update_r()
 
-    
+    ball.rect.x += d_x
+    ball.rect.y += d_y
+
+    if ball.rect.y > WIN_HEIGHT - ball.rect.height:
+        d_y *= -1
+
+    if ball.rect.y < 0:
+        d_y *= -1
+
+    if sprite.collide_rect(ball, platform_left) or sprite.collide_rect(ball, platform_right):
+        d_x *= -1
+
+
     for e in event.get():
         if e.type == QUIT:
             run = False  
