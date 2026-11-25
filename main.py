@@ -1,4 +1,5 @@
 from pygame import * 
+font.init()
 
 DARK_BLUE = (0, 0, 100)
 YELLOW = (255, 255, 0)
@@ -69,6 +70,13 @@ while run:
     if sprite.collide_rect(ball, platform_left) or sprite.collide_rect(ball, platform_right):
         d_x *= -1
 
+    if ball.rect.x < 0:
+        win = font.SysFont(None, 50).render("Победа правого", 1, (0, 255, 0))
+        window.blit(win, (0, 0))
+
+    if ball.rect.x > WIN_WIDTH - ball.rect.height:
+            win = font.SysFont(None, 50).render("Победа левого", 1, (0, 255, 0))
+            window.blit(win, (0, 0))
 
     for e in event.get():
         if e.type == QUIT:
