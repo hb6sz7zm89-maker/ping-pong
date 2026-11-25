@@ -25,23 +25,35 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image,(self.rect.x, self.rect.y))
 
 class Player(GameSprite):
-    def update(self):
+    def update_r(self):
         keys = key.get_pressed()
-        
-        if keys[K_RIGHT] and self.rect.x < 620:
-            self.rect.x += self.speed
-        if keys[K_LEFT] and self.rect.x > 10:
-            self.rect.x -= self.speed
+        if keys[K_DOWN] and self.rect.y < WIN_HEIGHT-self.rect.height:
+            self.rect.y += self.speed
+        if keys[K_UP] and self.rect.y > 0:
+            self.rect.y -= self.speed
+
+    def update_l(self):
+        keys = key.get_pressed()
+        if keys[K_s] and self.rect.y < WIN_HEIGHT-self.rect.height:
+            self.rect.y += self.speed
+        if keys[K_w] and self.rect.y > 0:
+            self.rect.y -= self.speed
 
 window = display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 clock = time.Clock()
 ball = GameSprite("ball.webp", WIN_WIDTH/2, WIN_HEIGHT/2, 50, 50, 10)
-
+platform_left = Player("platform.png", 10, WIN_HEIGHT/2, 39/1.5, 136/1.5, 10)
+platform_right = Player("platform.png", 670, WIN_HEIGHT/2, 39/1.5, 136/1.5, 10)
 
 run = True
 while run:
     window.fill(BACK)
     ball.reset()
+    platform_left.reset()
+    platform_left.update_l()
+    platform_right.reset()
+    platform_right.update_r()
+
     
     for e in event.get():
         if e.type == QUIT:
